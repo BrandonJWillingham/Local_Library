@@ -12,14 +12,9 @@ function getBooksBorrowedCount(books) {
 }
 
 function getMostCommonGenres(books) {
-  const allGenres = []
+  // const allGenres = []
   const temp = []
-  books.forEach(currentBook =>{
-    // if(!allGenres.includes(currentBook.genre)){
-      allGenres.push(currentBook.genre)
-    // } 
-
-  })
+  const allGenres = books.map(currentBook =>currentBook.genre)
   allGenres.forEach((currentGenre) =>{
     const genreLocation = temp.findIndex((element) => element.name === currentGenre);
     if (genreLocation >= 0) {
@@ -63,8 +58,10 @@ function getMostPopularAuthors(books, authors) {
   const allAuthors = []
   const temp = []
   books.forEach(currentBook =>{
-    const foundAuthor = authors.find(currentAuthor => currentAuthor.id === currentBook.authorId )
-    const {id, name} = foundAuthor;
+    let bookId = currentBook.authorId
+    const foundAuthor = findAuthor(authors, bookId)
+    // const foundAuthor = authors.find(currentAuthor => currentAuthor.id === currentBook.authorId )
+     const {id, name} = foundAuthor;
     const fullName = `${name.first} ${name.last}`
     if(!allAuthors.includes(id)){
       allAuthors.push(id)
@@ -72,7 +69,9 @@ function getMostPopularAuthors(books, authors) {
      }
   })
   books.forEach(currentBook => {
-    const foundAuthor = authors.find(currentAuthor => currentAuthor.id === currentBook.authorId)
+    let bookId = currentBook.authorId
+    const foundAuthor = findAuthor(authors, bookId)
+     // const foundAuthor = authors.find(currentAuthor => currentAuthor.id === currentBook.authorId )
     const {name:{first, last }} = foundAuthor;
     const fullName = `${first} ${last}`
     const tempAuthorLocation = temp.findIndex(element => element.name == fullName)
@@ -80,6 +79,12 @@ function getMostPopularAuthors(books, authors) {
   })
   console.log(temp);
   temp.sort((a,b) => b.count - a.count);
+
+  //helper function
+  function findAuthor (authors,id){
+    const foundAuthor = authors.find(currentAuthor => currentAuthor.id === id)
+    return foundAuthor
+  }
   return temp.slice(0,5)
 }
 
