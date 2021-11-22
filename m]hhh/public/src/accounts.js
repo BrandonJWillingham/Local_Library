@@ -7,24 +7,20 @@ function sortAccountsByLastName(accounts) {
   
 }
 
+// REDUCE USED IN THIS FUNCTION
 function getTotalNumberOfBorrows(account, books) {
-  let total = 0;
+  let acc = 0;
+  let borrArr = []
   let {id} = account;
-  books.forEach(currentBook => currentBook.borrows.forEach((borrows) => id == borrows.id ? total++ : total + 0 ))
+  books.forEach(currBook =>{
+    let lol = currBook.borrows.filter(borrows => borrows.id == id)
+    borrArr.push(lol.length)
+  })
+  let total = borrArr.reduce((x,y)=> x+y,acc)
+//   books.forEach(currentBook => currentBook.borrows.forEach((borrows) => id == borrows.id ? total++ : total + 0 ))
   return total;
 }
 
-// function getBooksPossessedByAccount(account, books, authors) {
-//   let {id} = account;
-//   // getting filtered books
-//   let borrowedBooks = books.filter(currentBook => currentBook.borrows.filter(borrows => false === borrows.returned && borrows.id === id))
-  
-//   // reconstructing the author data onto borrowedBooks below
-
-//   //just testing
-//   console.log(borrowedBooks);
-//   return borrowedBooks;
-// }
 function getBooksPossessedByAccount(account, books, authors) {
   let {id} = account;
   // getting filtered books
@@ -34,7 +30,6 @@ function getBooksPossessedByAccount(account, books, authors) {
     let author = authors.find(person => person.id === book.authorId);
     book['author'] = author;
   })
-//just testing
   console.log(borrowedBooks);
   return borrowedBooks;
 }

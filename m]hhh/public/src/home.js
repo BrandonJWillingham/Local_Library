@@ -10,7 +10,7 @@ function getBooksBorrowedCount(books) {
   let borrowedBooks = books.filter(currentBook => currentBook.borrows.some(checking => !checking.returned))
   return borrowedBooks.length
 }
-
+// MAP METHOD USED HERE
 function getMostCommonGenres(books) {
   // const allGenres = []
   const temp = []
@@ -79,15 +79,21 @@ function getMostPopularAuthors(books, authors) {
   })
   console.log(temp);
   temp.sort((a,b) => b.count - a.count);
+  return temp.slice(0,5)
+}  
 
-  //helper function
-  function findAuthor (authors,id){
+//HELPER FUNCTIONS
+function findAuthor (authors,id){
     const foundAuthor = authors.find(currentAuthor => currentAuthor.id === id)
     return foundAuthor
-  }
-  return temp.slice(0,5)
 }
-
+function checker(arr){
+    if(arr == ""|| arr == undefined){
+      return 0
+    } else{
+      return arr.length
+    }
+}
 module.exports = {
   getTotalBooksCount,
   getTotalAccountsCount,
